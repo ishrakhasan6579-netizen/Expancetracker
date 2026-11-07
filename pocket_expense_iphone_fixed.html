@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pocket — Expense Tracker</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{--bg:#0b1020;--panel:#131b2e;--panel2:#182238;--line:#26334b;--muted:#8e9bb2;--text:#f4f7fc;--green:#76e0b5;--red:#ff7d88;--blue:#8aa8ff;--yellow:#f6ce79}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#18284a 0,transparent 36%),var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1180px;margin:auto;padding:30px 24px 50px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#83e6bc,#5c9cfa);display:grid;place-items:center;color:#102033;font-size:22px;font-weight:800}.brand h1{font:800 21px Manrope;margin:0;letter-spacing:-.7px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.top-right{display:flex;align-items:center;gap:12px}.month-pill{border:1px solid var(--line);background:#131b2e;color:#cbd5e6;padding:10px 14px;border-radius:12px;font-size:13px}
+h2{font:700 25px Manrope;margin:0 0 5px;letter-spacing:-.8px}.sub{color:var(--muted);font-size:13px;margin:0 0 23px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}.card{background:linear-gradient(145deg,rgba(24,34,56,.97),rgba(17,26,44,.97));border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 14px 35px #0002}.stat-head{display:flex;justify-content:space-between;align-items:center;color:#aab6ca;font-size:13px}.stat-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:16px;background:#26344d}.amount{font:800 27px Manrope;margin:14px 0 5px;letter-spacing:-1px}.stat-note{font-size:11px;color:var(--muted)}.income .amount{color:var(--green)}.expense .amount{color:var(--red)}.balance .amount{color:#fff}
+.content{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.85fr);gap:18px}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.section-title h3{font:700 16px Manrope;margin:0}.add-btn{border:0;background:var(--green);color:#10251f;border-radius:11px;padding:10px 14px;font-weight:700;font-size:12px;box-shadow:0 5px 18px #76e0b522}.add-btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.toolbar{display:flex;gap:9px;margin-bottom:14px}.toolbar input,.toolbar select,.field input,.field select{background:#0e1729;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;outline:none}.toolbar input{flex:1;min-width:90px}.toolbar select{width:135px}.toolbar input:focus,.field input:focus,.field select:focus{border-color:#789cff}
+table{width:100%;border-collapse:collapse}th{text-align:left;color:#8190aa;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:600;padding:10px 8px;border-bottom:1px solid var(--line)}td{padding:14px 8px;border-bottom:1px solid #202c42;font-size:12px;color:#dce4f1}tbody tr:last-child td{border-bottom:0}.category{display:flex;align-items:center;gap:9px}.cat-icon{width:32px;height:32px;border-radius:10px;background:#25324a;display:grid;place-items:center;font-size:15px}.cat-name{font-weight:600}.cat-meta{font-size:10px;color:var(--muted);margin-top:3px}.positive{color:var(--green);font-weight:700}.negative{color:var(--red);font-weight:700}.actions{display:flex;gap:5px}.icon-btn{background:transparent;border:1px solid transparent;color:#8492a9;padding:5px 7px;border-radius:7px}.icon-btn:hover{background:#25334b;color:white}.empty{text-align:center;padding:35px 10px;color:var(--muted);font-size:13px}
+.right-col{display:flex;flex-direction:column;gap:18px}.chart-area{display:flex;align-items:center;gap:20px;padding:12px 0 4px}.donut{width:132px;height:132px;border-radius:50%;background:conic-gradient(#76e0b5 0 35%,#8aa8ff 35% 60%,#f6ce79 60% 78%,#d18aff 78% 90%,#35445d 90%);position:relative;flex:none}.donut:after{content:"";position:absolute;inset:17px;background:#172137;border-radius:50%}.donut-center{position:absolute;inset:0;z-index:1;display:grid;place-content:center;text-align:center;font:700 15px Manrope}.donut-center small{font:10px 'DM Sans';color:var(--muted);margin-top:3px}.legend{display:grid;gap:11px;flex:1}.legend-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#cbd5e4}.legend-label{display:flex;align-items:center;gap:7px}.dot{width:7px;height:7px;border-radius:50%}.budget-item{margin:17px 0}.budget-line{display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px}.budget-line span:last-child{color:var(--muted);font-size:11px}.track{height:7px;border-radius:9px;background:#29364e;overflow:hidden}.fill{height:100%;border-radius:9px;background:linear-gradient(90deg,#76e0b5,#8aa8ff)}.hint{font-size:11px;color:var(--muted);line-height:1.6;margin-top:15px}
+.modal-backdrop{position:fixed;inset:0;background:#050914bb;display:none;align-items:center;justify-content:center;padding:18px;z-index:5}.modal-backdrop.show{display:flex}.modal{width:min(440px,100%);background:#151f33;border:1px solid #33415b;border-radius:20px;padding:23px;box-shadow:0 25px 80px #0009}.modal h3{font:700 19px Manrope;margin:0 0 18px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:#a9b5c9}.field input,.field select{width:100%;padding:12px}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.cancel{background:#26334a;color:#d8e0ed;border:0;padding:10px 15px;border-radius:10px}.save{background:var(--green);color:#10251f;border:0;padding:10px 17px;border-radius:10px;font-weight:700}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#d6f8e9;color:#12382b;padding:11px 17px;border-radius:10px;font-size:12px;font-weight:700;opacity:0;transition:.25s;pointer-events:none;z-index:10}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:800px){.content{grid-template-columns:1fr}.right-col{display:grid;grid-template-columns:1fr 1fr}.summary{gap:10px}.card{padding:16px}.amount{font-size:22px}}
+@supports (-webkit-touch-callout: none){input,select,button{ -webkit-appearance:none; } input,select{font-size:16px;} .modal-backdrop{overflow-y:auto;-webkit-overflow-scrolling:touch;} .modal{max-height:calc(100dvh - 36px);overflow-y:auto;overscroll-behavior:contain;} }
+@media(max-width:560px){.app{padding:20px 13px}.summary{grid-template-columns:1fr}.summary .card{padding:15px}.summary .amount{margin:8px 0 3px}.top-right .month-pill{display:none}.right-col{grid-template-columns:1fr}.toolbar{flex-wrap:wrap}.toolbar input{flex-basis:100%}.table-wrap{overflow-x:auto}table{min-width:520px}h2{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="logo">৳</div><div><h1>Pocket</h1><small>YOUR MONEY, IN FOCUS</small></div></div><div class="top-right"><div class="month-pill" id="todayLabel">📅 This month</div></div></header>
+<main>
+<h2>Good money habits start here.</h2><p class="sub">A clear view of your spending, one day at a time.</p>
+<section class="summary">
+<div class="card balance"><div class="stat-head">Total balance <span class="stat-icon">◈</span></div><div class="amount" id="balance">৳0.00</div><div class="stat-note">Income minus expenses · all time</div></div>
+<div class="card income"><div class="stat-head">Total income <span class="stat-icon">↗</span></div><div class="amount" id="income">৳0.00</div><div class="stat-note">Money received · all time</div></div>
+<div class="card expense"><div class="stat-head">Total expenses <span class="stat-icon">↘</span></div><div class="amount" id="expense">৳0.00</div><div class="stat-note">Money spent · all time</div></div>
+</section>
+<section class="content">
+<div class="card">
+<div class="section-title"><h3>Recent transactions</h3><button class="add-btn" id="addBtn">＋ Add transaction</button></div>
+<div class="toolbar"><input id="search" placeholder="⌕  Search transactions..."><select id="typeFilter"><option value="all">All types</option><option value="income">Income</option><option value="expense">Expense</option></select><select id="monthFilter"><option value="all">All months</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Transaction</th><th>Date</th><th>Amount</th><th></th></tr></thead><tbody id="transactions"></tbody></table></div>
+</div>
+<aside class="right-col">
+<div class="card"><div class="section-title"><h3>Spending breakdown</h3><span style="font-size:10px;color:var(--muted)">BY CATEGORY</span></div><div class="chart-area"><div class="donut" id="donut"><div class="donut-center" id="donutCenter">৳0<small>spent</small></div></div><div class="legend" id="legend"></div></div></div>
+<div class="card"><div class="section-title"><h3>Monthly snapshot</h3><span style="font-size:10px;color:var(--muted)">THIS MONTH</span></div><div class="budget-item"><div class="budget-line"><span>Income</span><b class="positive" id="monthIncome">৳0</b></div><div class="track"><div class="fill" id="incomeBar" style="width:0%"></div></div></div><div class="budget-item"><div class="budget-line"><span>Expenses</span><b class="negative" id="monthExpense">৳0</b></div><div class="track"><div class="fill" id="expenseBar" style="width:0%;background:linear-gradient(90deg,#ff7d88,#f6ce79)"></div></div></div><p class="hint" id="snapshotHint">Add transactions to see your monthly snapshot.</p></div>
+</aside>
+</section>
+</main>
+</div>
+<div class="modal-backdrop" id="modal"><div class="modal"><h3 id="modalTitle">Add transaction</h3><form id="transactionForm"><div class="form-grid">
+<div class="field"><label for="type">Type</label><select id="type" required><option value="expense">Expense</option><option value="income">Income</option></select></div>
+<div class="field"><label for="amountInput">Amount (৳)</label><input id="amountInput" type="number" min="0.01" step="0.01" placeholder="e.g. 250" required></div>
+<div class="field full"><label for="titleInput">Description</label><input id="titleInput" maxlength="60" placeholder="e.g. Lunch, Salary..." required></div>
+<div class="field"><label for="category">Category</label><select id="category"><option>Food</option><option>Transport</option><option>Shopping</option><option>Bills</option><option>Education</option><option>Health</option><option>Entertainment</option><option>Salary</option><option>Freelance</option><option>Other</option></select></div>
+<div class="field"><label for="dateInput">Date</label><input id="dateInput" type="date" required></div>
+</div><div class="modal-actions"><button type="button" class="cancel" id="cancelBtn">Cancel</button><button class="save" type="submit">Save transaction</button></div></form></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const KEY='pocket_expenses_v1';
+function localDateString(date=new Date()){
+ const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),d=String(date.getDate()).padStart(2,'0');
+ return `${y}-${m}-${d}`;
+}
+function readItems(){
+ try{
+  const raw=localStorage.getItem(KEY);
+  const parsed=raw?JSON.parse(raw):[];
+  return Array.isArray(parsed)?parsed:[];
+ }catch(error){
+  console.error('Could not read saved Pocket Expense data:',error);
+  return [];
+ }
+}
+const icons={Food:'🍜',Transport:'🚌',Shopping:'🛍️',Bills:'💡',Education:'📚',Health:'💊',Entertainment:'🎮',Salary:'💼',Freelance:'💻',Other:'📦'};
+const colors=['#76e0b5','#8aa8ff','#f6ce79','#d18aff','#ff8d9c','#72cbd7','#f3a66d','#a7b7d8'];
+let items=readItems(),editingId=null;
+const money=n=>'৳'+Number(n||0).toLocaleString('en-BD',{minimumFractionDigits:2,maximumFractionDigits:2});
+const dateNow=()=>localDateString();
+const monthKey=d=>d.slice(0,7);
+function save(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify(items));
+  render();
+ }catch(error){
+  console.error('Could not save Pocket Expense data:',error);
+  toast('Could not save data. Check Safari storage settings.');
+ }
+}
+function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2100)}
+function render(){
+ const income=items.filter(x=>x.type==='income').reduce((a,x)=>a+x.amount,0),expense=items.filter(x=>x.type==='expense').reduce((a,x)=>a+x.amount,0);
+ $('balance').textContent=money(income-expense);$('income').textContent=money(income);$('expense').textContent=money(expense);
+ const current=monthKey(dateNow()),mi=items.filter(x=>monthKey(x.date)===current&&x.type==='income').reduce((a,x)=>a+x.amount,0),me=items.filter(x=>monthKey(x.date)===current&&x.type==='expense').reduce((a,x)=>a+x.amount,0);
+ $('todayLabel').textContent='📅 '+new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
+ $('monthIncome').textContent=money(mi);$('monthExpense').textContent=money(me);
+ const max=Math.max(mi,me,1);$('incomeBar').style.width=(mi/max*100)+'%';$('expenseBar').style.width=(me/max*100)+'%';
+ $('snapshotHint').textContent=mi+me===0?'No transactions this month yet. Add one to get started.':(mi>=me?'You are currently spending less than you earn this month.':'Your expenses are higher than your income this month.');
+ const months=[...new Set(items.map(x=>monthKey(x.date)))].sort().reverse();const selected=$('monthFilter').value;
+ $('monthFilter').innerHTML='<option value="all">All months</option>'+months.map(m=>`<option value="${m}">${new Date(m+'-02').toLocaleDateString('en-US',{month:'long',year:'numeric'})}</option>`).join('');$('monthFilter').value=months.includes(selected)?selected:'all';
+ const q=$('search').value.toLowerCase(),type=$('typeFilter').value,month=$('monthFilter').value;
+ const shown=items.filter(x=>(x.title+' '+x.category).toLowerCase().includes(q)&&(type==='all'||x.type===type)&&(month==='all'||monthKey(x.date)===month)).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+ $('transactions').innerHTML=shown.length?shown.map(x=>`<tr><td><div class="category"><div class="cat-icon">${icons[x.category]||'📦'}</div><div><div class="cat-name">${esc(x.title)}</div><div class="cat-meta">${esc(x.category)}</div></div></div></td><td>${new Date(x.date+'T00:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</td><td class="${x.type==='income'?'positive':'negative'}">${x.type==='income'?'+':'−'}${money(x.amount)}</td><td><div class="actions"><button class="icon-btn" title="Edit" onclick="editItem(${x.id})">✎</button><button class="icon-btn" title="Delete" onclick="deleteItem(${x.id})">×</button></div></td></tr>`).join(''):'<tr><td colspan="4"><div class="empty">No transactions found.<br>Try adding your first transaction.</div></td></tr>';
+ const cats={};items.filter(x=>x.type==='expense').forEach(x=>cats[x.category]=(cats[x.category]||0)+x.amount);
+ const entries=Object.entries(cats).sort((a,b)=>b[1]-a[1]),total=entries.reduce((a,x)=>a+x[1],0);
+ $('donutCenter').innerHTML=money(total).replace('.00','')+'<small>total spent</small>';
+ let angle=0;const segments=entries.map((e,i)=>{const start=angle;angle+=total?e[1]/total*100:0;return `${colors[i%colors.length]} ${start}% ${angle}%`});
+ $('donut').style.background=total?'conic-gradient('+segments.join(',')+')':'conic-gradient(#35445d 0 100%)';
+ $('legend').innerHTML=entries.length?entries.slice(0,5).map((e,i)=>`<div class="legend-row"><span class="legend-label"><i class="dot" style="background:${colors[i%colors.length]}"></i>${esc(e[0])}</span><b>${Math.round(e[1]/total*100)}%</b></div>`).join(''):'<span style="font-size:11px;color:var(--muted)">No spending yet</span>';
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function openModal(item){editingId=item?.id??null;$('modalTitle').textContent=item?'Edit transaction':'Add transaction';$('type').value=item?.type||'expense';$('amountInput').value=item?.amount??'';$('titleInput').value=item?.title||'';$('category').value=item?.category||'Food';$('dateInput').value=item?.date||dateNow();$('modal').classList.add('show');}
+function closeModal(){$('modal').classList.remove('show')}
+window.editItem=id=>{const x=items.find(a=>a.id===id);if(x)openModal(x)};
+window.deleteItem=id=>{if(confirm('Delete this transaction?')){items=items.filter(x=>x.id!==id);save();toast('Transaction deleted')}};
+$('addBtn').onclick=()=>openModal();$('cancelBtn').onclick=closeModal;
+$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+$('transactionForm').onsubmit=e=>{e.preventDefault();const data={type:$('type').value,amount:Number($('amountInput').value),title:$('titleInput').value.trim(),category:$('category').value,date:$('dateInput').value};if(!data.title||!data.date||!Number.isFinite(data.amount)||data.amount<=0){toast('Please enter valid details');return}if(editingId){items=items.map(x=>x.id===editingId?{...x,...data}:x);toast('Transaction updated')}else{items.push({id:Date.now(),...data});toast('Transaction added')};save();closeModal()};
+['search','typeFilter','monthFilter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
+render();
+</script>
+</body></html>
